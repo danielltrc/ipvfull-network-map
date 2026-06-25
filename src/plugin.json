@@ -1,0 +1,26 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
+  "type": "panel",
+  "name": "IPvFull Network Map",
+  "id": "ipvfull-ipvfullnetworkmap-panel",
+  "info": {
+    "keywords": ["panel", "network", "topology", "map", "isp", "noc", "monitoring"],
+    "description": "Enterprise-grade ISP network topology and geographic map visualization with real-time metrics, particle animations, and NOC mode.",
+    "author": {
+      "name": "IPvFull Consultoria",
+      "url": "https://ipvfullconsultoria.com.br"
+    },
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaDependency": ">=11.0.0",
+    "plugins": []
+  }
+}
