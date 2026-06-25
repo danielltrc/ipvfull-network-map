@@ -63,16 +63,31 @@ export function NetworkMapPanel(props: PanelProps<NetworkMapOptions>) {
   });
   const [addLinkOpen, setAddLinkOpen] = useState(false);
 
+  // Abre o modal automaticamente quando o tool addDevice ou addLink é selecionado
+  React.useEffect(() => {
+    if (editor.activeTool === 'addDevice') {
+      const rect = containerRef.current?.getBoundingClientRect();
+      const cx = rect ? rect.width / 2 : 300;
+      const cy = rect ? rect.height / 2 : 300;
+      setAddDeviceState({ open: true, position: { x: cx, y: cy } });
+    }
+    if (editor.activeTool === 'addLink') {
+      setAddLinkOpen(true);
+    }
+  }, [editor.activeTool]);
+
   const handleEditorAddDevice = useCallback(
     (partial: Partial<NetworkDevice>) => {
       editor.addDevice(addDeviceState.position, (partial.type ?? 'router') as DeviceType, partial.label);
+      editor.setActiveTool('select');
     },
     [editor, addDeviceState.position]
   );
 
   const handleEditorAddLink = useCallback(
-    (sourceId: string, targetId: string, type: LinkType, capacity?: number, label?: string) => {
+    (sourceId: string, targetId: string, type: LinkType, _capacity?: number, label?: string) => {
       editor.addLink(sourceId, targetId, type, label);
+      editor.setActiveTool('select');
     },
     [editor]
   );
@@ -195,14 +210,20 @@ export function NetworkMapPanel(props: PanelProps<NetworkMapOptions>) {
       {/* Modals */}
       <AddDeviceModal
         isOpen={addDeviceState.open}
-        onClose={() => setAddDeviceState((s) => ({ ...s, open: false }))}
+        onClose={() => {
+          setAddDeviceState((s) => ({ ...s, open: false }));
+          editor.setActiveTool('select');
+        }}
         onConfirm={handleEditorAddDevice}
         position={addDeviceState.position}
       />
 
       <AddLinkModal
         isOpen={addLinkOpen}
-        onClose={() => setAddLinkOpen(false)}
+        onClose={() => {
+          setAddLinkOpen(false);
+          editor.setActiveTool('select');
+        }}
         onConfirm={handleEditorAddLink}
       />
     </div>
