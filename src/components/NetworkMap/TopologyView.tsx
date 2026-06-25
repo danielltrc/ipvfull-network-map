@@ -118,7 +118,7 @@ export function TopologyView({
   );
 
   return (
-    <div style={{ position: 'relative', width, height }}>
+    <div style={{ position: 'relative', width, height, isolation: 'isolate' }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}

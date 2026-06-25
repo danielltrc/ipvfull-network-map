@@ -45,13 +45,12 @@ export function NetworkMapPanel(props: PanelProps<NetworkMapOptions>) {
   const setEditMode = useNetworkStore((s) => s.setEditMode);
   const setNocMode = useNetworkStore((s) => s.setNocMode);
 
-  // Initialize store view/edit from panel options on first render
+  // Sync panel options → store whenever options change
   React.useEffect(() => {
     setViewMode(options.viewMode ?? 'topology');
     setEditMode(options.editMode ?? false);
     setNocMode(options.nocMode ?? false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [options.viewMode, options.editMode, options.nocMode, setViewMode, setEditMode, setNocMode]);
 
   const editor = useEditor(onOptionsChange, options);
 
@@ -236,11 +235,14 @@ function ViewModeSwitcher() {
 
   return (
     <div
+      onMouseDown={(e) => e.stopPropagation()}
+      onPointerDown={(e) => e.stopPropagation()}
       style={{
         position: 'absolute',
         bottom: 12,
         right: 12,
-        zIndex: 50,
+        zIndex: 1000,
+        pointerEvents: 'auto',
         display: 'flex',
         gap: 4,
         background: 'rgba(8, 12, 24, 0.9)',

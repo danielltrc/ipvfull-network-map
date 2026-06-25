@@ -59,12 +59,16 @@ export function EditorToolbar({
 
   return (
     <div
+      onMouseDown={(e) => e.stopPropagation()}
+      onPointerDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
       style={{
         position: 'absolute',
         top: 12,
         left: '50%',
         transform: 'translateX(-50%)',
-        zIndex: 50,
+        zIndex: 1000,
+        pointerEvents: 'auto',
         display: 'flex',
         gap: 4,
         background: 'rgba(8, 12, 24, 0.9)',
@@ -107,7 +111,9 @@ export function EditorToolbar({
 
       {/* Save indicator */}
       <button
-        onClick={onSave}
+        onClick={(e) => { e.stopPropagation(); onSave(); }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onPointerDown={(e) => e.stopPropagation()}
         title="Save (⌘S)"
         style={{
           background: isDirty ? 'rgba(255, 136, 0, 0.2)' : 'transparent',
@@ -154,7 +160,9 @@ function ToolButton({
   return (
     <button
       title={label}
-      onClick={onClick}
+      onClick={(e) => { e.stopPropagation(); onClick(); }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onPointerDown={(e) => e.stopPropagation()}
       disabled={disabled}
       style={{
         background: active ? 'rgba(68, 136, 255, 0.25)' : 'transparent',
